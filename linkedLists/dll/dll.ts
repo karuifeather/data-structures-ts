@@ -16,11 +16,11 @@ class LinkedList {
     return this.length;
   }
 
-  print(): number {
+  print(): void {
     const arr = [];
-    if (!this.head) return null;
+    if (!this.head) return undefined;
 
-    let current = this.head;
+    let current: LinkNode | null = this.head;
 
     while (current) {
       arr.push(current.data);
@@ -33,11 +33,12 @@ class LinkedList {
   push(value: Data): LinkedList {
     const newNode = new LinkNode(value);
 
-    if (!this.head) {
+    if (!this.head || !this.tail) {
       this.head = newNode;
       this.tail = this.head;
     } else {
       newNode.prev = this.tail;
+
       this.tail.next = newNode;
       this.tail = newNode;
     }
@@ -46,8 +47,8 @@ class LinkedList {
     return this;
   }
 
-  pop(): LinkNode {
-    if (!this.head) {
+  pop(): LinkNode | null {
+    if (!this.head || !this.tail) {
       return null;
     }
 
@@ -57,7 +58,7 @@ class LinkedList {
       this.head = this.tail = null;
     } else {
       this.tail = this.tail.prev;
-      this.tail.next = null;
+      if (this.tail) this.tail.next = null;
       oldTail.prev = null;
     }
 
@@ -65,7 +66,7 @@ class LinkedList {
     return oldTail;
   }
 
-  shift(): LinkNode {
+  shift(): LinkNode | null {
     if (!this.head) return null;
 
     const oldHead = this.head;
@@ -74,7 +75,7 @@ class LinkedList {
       this.head = this.tail = null;
     } else {
       this.head = this.head.next;
-      this.head.prev = null;
+      if (this.head) this.head.prev = null;
       oldHead.next = null;
     }
 
@@ -102,8 +103,9 @@ class LinkedList {
     return this;
   }
 
-  get(index: number): LinkNode {
-    if (index < 0 || index >= this.length) return null;
+  get(index: number): LinkNode | undefined {
+    if (!this.head || !this.tail) return undefined;
+    if (index < 0 || index >= this.length) return undefined;
 
     let current: LinkNode;
     let midpoint = Math.floor(this.length / 2);
@@ -114,7 +116,7 @@ class LinkedList {
     if (current.prev) {
       let i = this.length - 1;
 
-      while (i !== index) {
+      while (i !== index && current.prev) {
         current = current.prev;
         i--;
       }
@@ -125,7 +127,7 @@ class LinkedList {
     if (current.next) {
       let i = 0;
 
-      while (i !== index) {
+      while (i !== index && current.next) {
         current = current.next;
         i++;
       }
@@ -145,7 +147,7 @@ class LinkedList {
     return false;
   }
 
-  insert(value: Data, index: number): boolean {
+  insert(value: Data, index: number): boolean | null {
     if (index < 0 || index >= this.length) return null;
 
     if (index === 0) return !!this.unshift(value);
@@ -154,9 +156,13 @@ class LinkedList {
     const node = new LinkNode(value);
     const pre = this.get(index - 1);
 
+    if (!pre) return null;
+
     // Linking the next node with node
-    node.next = pre.next;
-    node.next.prev = node;
+    if (pre.next) {
+      node.next = pre.next;
+      if (node.next.prev) node.next.prev = node;
+    }
 
     // Linking the pre node with node
     pre.next = node;
@@ -166,17 +172,20 @@ class LinkedList {
     return true;
   }
 
-  remove(index: number): LinkNode {
+  remove(index: number): LinkNode | null {
     if (index < 0 || index >= this.length) return null;
 
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
 
     const node = this.get(index);
+    if (!node) return null;
 
     // Get previous and next nodes
     const pre = node.prev;
     const next = node.next;
+
+    if (!pre || !next) return null;
 
     // Severing ties with node
     pre.next = next;
