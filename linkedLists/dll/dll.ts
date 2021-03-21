@@ -144,15 +144,63 @@ class LinkedList {
 
     return false;
   }
+
+  insert(value: Data, index: number): boolean {
+    if (index < 0 || index >= this.length) return null;
+
+    if (index === 0) return !!this.unshift(value);
+    if (index === this.length) return !!this.push(value);
+
+    const node = new LinkNode(value);
+    const pre = this.get(index - 1);
+
+    // Linking the next node with node
+    node.next = pre.next;
+    node.next.prev = node;
+
+    // Linking the pre node with node
+    pre.next = node;
+    node.prev = pre;
+
+    this.length++;
+    return true;
+  }
+
+  remove(index: number): LinkNode {
+    if (index < 0 || index >= this.length) return null;
+
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+
+    const node = this.get(index);
+
+    // Get previous and next nodes
+    const pre = node.prev;
+    const next = node.next;
+
+    // Severing ties with node
+    pre.next = next;
+    next.prev = pre;
+
+    // Cleaning up
+    node.prev = node.next = null;
+
+    this.length--;
+    return node;
+  }
 }
 
-const list = new LinkedList();
+// const list = new LinkedList();
 
-list.push('Hello');
-list.push('I know you!!');
-list.push(3);
-list.push(4);
+// list.push('Hello');
+// list.push('I know you!!');
+// list.push(3);
+// list.push(4);
 
-list.set('Who are you?', 0);
+// list.print();
+// console.log(list.insert('Who are you?', 2));
+// list.print();
 
-list.print();
+// console.log(list.remove(2));
+
+// list.print();
