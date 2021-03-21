@@ -1,3 +1,14 @@
+![Singly Linked List Representation](http://www.cs.uregina.ca/Links/class-info/170/11-linked-lists/single-list.gif)
+
+# Big O of Singly Linked Lists
+
+| Method    |                |
+| --------- | -------------- |
+| Insertion | O(1)           |
+| Removal   | O(1) \|\| O(N) |
+| Searching | O(N)           |
+| Access    | O(N)           |
+
 ## Pushing
 
 #### Adding a new node to the end of the Linked List
@@ -73,3 +84,30 @@
 - Set the next property on the new node to be the previous next
 - Increment the length
 - Return true
+
+## Remove
+
+#### Removing a node from the Linked List at a specific position
+
+- If the index is less than zero or greater than the length, return undefined
+- If the index is the same as the length-1, pop
+- If the index is 0, shift
+- Otherwise, using the get method, access the node at the index - 1
+- Set the next property on that node to be the next of the next node
+- Decrement the length
+- Return the value of the node removed
+
+## Reverse
+
+#### Reversing the Linked List **in place!**
+
+- Swap the head and tail
+- Create a variable called next
+- Create a variable called prev
+- Create a variable called node and initialize it to the head property
+- Loop through the list
+- Set next to be the next property on whatever node is
+- Set the next property on the node to be whatever prev is
+- Set prev to be the value of the node variable
+- Set the node variable to be the value of the next variable
+- Once you have finished looping, return the list
