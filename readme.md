@@ -23,3 +23,4 @@ I decided to use TS for my implementations. Pure JS is boring and unproductive a
 
 - Trees
   - Binary Search Tree
+  - Tree Traversal

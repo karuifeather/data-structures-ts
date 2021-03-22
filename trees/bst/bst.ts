@@ -1,11 +1,11 @@
-class BSTNode {
+export class BSTNode {
   left: BSTNode | null = null;
   right: BSTNode | null = null;
 
   constructor(public value: number) {}
 }
 
-class BST {
+export class BST {
   root: BSTNode | null = null;
 
   insert(value: number): this | undefined {
