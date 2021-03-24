@@ -1,10 +1,22 @@
 # WHAT IS A BINARY HEAP?
 
+Binary Heaps are very useful data structures for sorting, and implementing other data structures like priority queues
+
+Binary Heaps are either MaxBinaryHeaps or MinBinaryHeaps with parents either being smaller or larger than their children
+
+With just a little bit of math, we can represent heaps using arrays
+
 Very similar to a binary search tree, but with some different rules!
 
-In a MaxBinaryHeap, parent nodes are always larger than child nodes. In a MinBinaryHeap, parent nodes are always smaller than child nodes
+In a MaxBinaryHeap, parent nodes are always larger than child nodes. In a MinBinaryHeap, parent nodes are always smaller than child nodes.
 
 ![Binary Heaps](https://miro.medium.com/max/3076/1*2XhoV0IYgNlRxQ8jCW1Guw.png)
+
+## Big O
+
+Insertion - O(log n)
+Removal - O(log n)
+Searching - O(n)
 
 ## Rules For Max Binary Heap
 
@@ -32,7 +44,7 @@ They are also used quite a bit, with graph traversal algorithms
 
 - Its parent is at index Math.floor((n-1)/2)
 
-## Insert 
+## Insert
 
 - Push the value into the values property on the heap
 - Bubble Up:
