@@ -65,3 +65,21 @@ They are also used quite a bit, with graph traversal algorithms
   - If the left or right child is greater than the element...swap. If both left and right children are larger, swap with the largest child.
   - The child index you swapped to now becomes the new parent index.
   - Keep looping and swapping
+
+## MaxHeapify
+
+Converting an array into a MaxBinaryHeap
+
+- Create a new heap
+- Iterate over the array and invoke your **insert** function
+- Return the values property on the heap
+
+## Heapsort
+
+We can sort an array in O(n log n) time and O(1) space by making it a heap!
+
+- Make the array a max heap (use maxHeapify)
+- Loop over the array, swap the root node with last item in the array
+- After swapping each item, run maxHeapify again to find the next root node
+- Next loop you'll swap the root node with the second-to-last item in the array and run maxHeapify again.
+- Once you've run out of items to swap, you have a sorted array!
