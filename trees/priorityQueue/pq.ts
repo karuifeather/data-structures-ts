@@ -21,14 +21,11 @@ export class PriorityQueue {
     while (parentIndex >= 0) {
       const parent = heap[parentIndex];
       const leaf = heap[newLeafIndex];
-      console.log(parent, leaf);
 
       if (parent && parent.priority > leaf.priority) {
-        console.log('swapping');
         this.swap(heap, parentIndex, newLeafIndex);
         newLeafIndex = parentIndex;
         parentIndex = Math.floor((newLeafIndex - 1) / 2);
-        console.log('ne wparent insedz', parentIndex);
       } else break;
     }
   }
@@ -73,27 +70,36 @@ export class PriorityQueue {
     this.bubbleUp();
   }
 
-  dequeue(): Data {
+  dequeue(): PQNode {
     const store = this.store;
 
     if (store.length === 0) return;
 
     this.swap(store, 0, store.length - 1);
-    const max = store.pop();
+    const min = store.pop();
+
+    if (!min && store.length === 0) {
+      return;
+    } else if (min && store.length === 0) return min;
 
     this.bubbleDown();
 
-    return max.val;
+    return min;
   }
 }
 
-const er = new PriorityQueue();
+// const er = new PriorityQueue();
 
-er.enqueue('cold', 5);
-er.enqueue('gunshot', 0);
-er.enqueue('fever', 2);
-console.log(er.dequeue());
-console.log(er.dequeue());
-console.log(er.dequeue());
+// er.enqueue('cold', 5);
+// er.enqueue('gunshot', 1);
+// er.enqueue('fever', 4);
+// er.enqueue('broken arm', 2);
+// er.enqueue('broken jaw', 3);
+// console.log(er.dequeue());
+// console.log(er.dequeue());
+// console.log(er.dequeue());
+// console.log(er.dequeue());
+// console.log(er.dequeue());
+// console.log(er.dequeue());
 
-console.log(er);
+// console.log(er);
