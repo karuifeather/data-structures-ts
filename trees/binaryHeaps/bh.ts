@@ -69,6 +69,27 @@ export class MaxBH {
 
     return max;
   }
+
+  maxHeapify(values: number[]): number[] {
+    const heap = new MaxBH([]);
+    for (let value of values) {
+      heap.insert(value);
+    }
+    return heap.store;
+  }
+
+  heapSort(values: number[]) {
+    values = this.maxHeapify(values);
+    let sorted: number[] = [];
+
+    for (let i = values.length - 1; i >= 1; i--) {
+      this.swap(values, 0, i);
+      sorted = values.slice(i).concat(sorted);
+      values = this.maxHeapify(values.slice(0, i));
+    }
+
+    return values.concat(sorted);
+  }
 }
 
 // const heap = new MaxBH([41, 39, 33, 18, 27, 12]);
