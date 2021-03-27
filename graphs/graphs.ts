@@ -42,12 +42,79 @@ class Graph {
 
     delete list[vertex];
   }
+
+  dfSearch(vertex: string): string[] {
+    const list = this.adjacencyList;
+    const vertices: string[] = [];
+
+    const visited = {};
+
+    const dfs = (startWith: string) => {
+      if (!startWith) return;
+
+      vertices.push(startWith);
+      visited[startWith] = true;
+
+      list[startWith].forEach((neighbor: string) => {
+        if (!visited[neighbor]) dfs(neighbor);
+      });
+    };
+
+    dfs(vertex);
+
+    return vertices;
+  }
+
+  dfsIterative(vertex: string): string[] {
+    const stack = [];
+
+    const vertices = [];
+    const visited = {};
+    let currentVertex: string;
+
+    stack.push(vertex);
+    visited[vertex] = true;
+
+    while (stack.length) {
+      console.log(stack);
+      currentVertex = stack.pop();
+      vertices.push(currentVertex);
+
+      visited[currentVertex] = true;
+
+      this.adjacencyList[currentVertex].forEach((neighbor: string) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor);
+        }
+      });
+    }
+
+    return vertices;
+  }
 }
 
 const g = new Graph();
-g.addVertex('Kathmandu');
-g.addVertex('Delhi');
-g.addVertex('Boise');
-g.addEdge('Kathmandu', 'Delhi');
-g.addEdge('Kathmandu', 'Boise');
-console.log(g.adjacencyList);
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
+
+g.addEdge('A', 'B');
+g.addEdge('A', 'C');
+g.addEdge('B', 'D');
+g.addEdge('C', 'E');
+g.addEdge('D', 'E');
+g.addEdge('D', 'F');
+g.addEdge('E', 'F');
+// g.addVertex('Kathmandu');
+// g.addVertex('Delhi');
+// g.addVertex('Boise');
+// g.addEdge('Kathmandu', 'Delhi');
+// g.addEdge('Kathmandu', 'Boise');
+// console.log(g.adjacencyList);
+
+console.log(g.dfSearch('A'));
+console.log(g.dfsIterative('A'));
