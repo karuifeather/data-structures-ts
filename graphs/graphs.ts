@@ -76,16 +76,38 @@ class Graph {
     visited[vertex] = true;
 
     while (stack.length) {
-      console.log(stack);
       currentVertex = stack.pop();
       vertices.push(currentVertex);
-
-      visited[currentVertex] = true;
 
       this.adjacencyList[currentVertex].forEach((neighbor: string) => {
         if (!visited[neighbor]) {
           visited[neighbor] = true;
           stack.push(neighbor);
+        }
+      });
+    }
+
+    return vertices;
+  }
+
+  bfsIterative(vertex: string): string[] {
+    const queue = [];
+
+    const vertices = [];
+    const visited = {};
+    let currentVertex: string;
+
+    queue.push(vertex);
+    visited[vertex] = true;
+
+    while (queue.length) {
+      currentVertex = queue.shift();
+      vertices.push(currentVertex);
+
+      this.adjacencyList[currentVertex].forEach((neighbor: string) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
         }
       });
     }
@@ -118,3 +140,4 @@ g.addEdge('E', 'F');
 
 console.log(g.dfSearch('A'));
 console.log(g.dfsIterative('A'));
+console.log(g.bfsIterative('A'));
