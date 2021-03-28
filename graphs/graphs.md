@@ -2,6 +2,12 @@
 
 A graph data structure consists of a finite (and possibly mutable) set of vertices or nodes or points, together with a set of unordered pairs of these vertices for an undirected graph or a set of ordered pairs for a directed graph.
 
+- Graphs are collections of vertices connected by edges
+- Graphs can be represented using adjacency lists, adjacency matrices and quite a few other forms.
+- Graphs can contain weights and directions as well as cycles
+- Just like trees, graphs can be traversed using BFS and DFS
+- Shortest path algorithms like Dijkstra can be altered using a heuristic to achieve better results like those with A
+
 ![Graph](http://www.btechsmartclass.com/data_structures/ds_images/Graph%20Adjacency%20Matrix%202.jpg)
 
 ## USES FOR GRAPHS
