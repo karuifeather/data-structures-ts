@@ -5,6 +5,8 @@ interface Vertex {
   weight: number;
 }
 
+type Data = number | string;
+
 class WeightedGraph {
   adjacencyList = {};
 
@@ -22,46 +24,49 @@ class WeightedGraph {
 
   shortestPath(start: string, end: string) {
     const list = this.adjacencyList;
+
     // Setting up distances 'table'
     const distances = {}; /* Stores the shortest distances to each vertex from start */
 
-    Object.keys(list).forEach((curr: string) => (distances[curr] = Infinity));
-    distances[start] = 0;
-
     // Setting up priority queue
     const queue = new PriorityQueue();
-    Object.keys(list).forEach((curr: string) => {
-      if (curr === start) queue.enqueue(curr, 0);
-      else queue.enqueue(curr, Infinity);
-    });
 
     // Setting up object that remembers how we got there
     const previous = {};
-    Object.keys(list).forEach((curr: string) => (previous[curr] = null));
+
+    // Build up the initial state
+    for (let vertex in list) {
+      if (vertex === start) {
+        distances[start] = 0;
+        queue.enqueue(vertex, 0);
+      } else {
+        distances[vertex] = Infinity;
+        queue.enqueue(vertex, Infinity);
+      }
+      previous[vertex] = null;
+    }
 
     // Run the loop while the queue is not empty
-    const visited = {};
+    let vertex: Data;
     while (queue.store.length) {
-      const vertex = queue.dequeue();
-      if (vertex.val === end) break;
+      vertex = queue.dequeue().val;
+      if (vertex === end) break;
 
-      if (!visited[vertex.val]) {
-        visited[vertex.val] = true;
-        list[vertex.val].forEach((curr: Vertex) => {
-          let dist: number;
+      if (distances[vertex] !== Infinity) {
+        let dist: number;
 
-          if (!previous[vertex.val]) {
-            dist = curr.weight;
+        list[vertex].forEach((neighbor: Vertex) => {
+          if (!previous[vertex]) {
+            dist = neighbor.weight;
           } else {
-            dist = distances[vertex.val] + curr.weight;
+            dist = distances[vertex] + neighbor.weight;
           }
 
-          if (dist < distances[curr.node]) {
-            distances[curr.node] = dist;
-            previous[curr.node] = vertex.val;
+          if (dist < distances[neighbor.node]) {
+            distances[neighbor.node] = dist;
+            previous[neighbor.node] = vertex;
+            queue.enqueue(neighbor.node, distances[neighbor.node]);
           }
-
-          queue.enqueue(curr.node, distances[curr.node]);
         });
       }
     }
@@ -71,11 +76,13 @@ class WeightedGraph {
     let currentStop = end;
     while (previous[currentStop]) {
       currentStop = previous[currentStop];
-      stops.unshift(currentStop);
+      stops.push(currentStop);
     }
-    stops.shift();
+    stops.pop();
 
-    const report = `The shortest path from ${start} to ${end} is through ${stops} with the distance of ${distances[end]} units.`;
+    const report = `The shortest path from ${start} to ${end} is through ${stops.reverse()} with the distance of ${
+      distances[end]
+    } units.`;
 
     return report;
   }
